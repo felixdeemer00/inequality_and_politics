@@ -1,0 +1,12 @@
+name: final_project
+title: final_project
+username:
+account: felixdeemer00
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 3084576
+bundleId: 3834637
+url: https://felixdeemer00.shinyapps.io/final_project/
+when: 1604858771.06264
+asMultiple: FALSE
+asStatic: FALSE

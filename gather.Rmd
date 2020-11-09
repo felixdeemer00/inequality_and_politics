@@ -1,0 +1,61 @@
+---
+title: "gather"
+author: "Felix Deemer"
+date: "10/16/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readr)
+library(readxl)
+```
+
+```{r}
+
+nonstate_violence <- read_csv("raw_data/UCDP_Data_Nonstate_Violence.csv",
+                             col_types = cols(
+                            .default = col_double(),
+                            side_a_name = col_character(),
+                            side_a_name_fulltext = col_logical(),
+                            side_a_name_mothertongue = col_character(),
+                            side_a_components = col_character(),
+                            side_b_name = col_character(),
+                            side_b_name_fulltext = col_logical(),
+                            side_b_name_mothertongue = col_character(),
+                            side_b_components = col_character(),
+                            start_date = col_date(format = ""),
+                            start_date2 = col_date(format = ""),
+                            ep_end_date = col_date(format = ""),
+                            ep_end_prec = col_logical(),
+                            location = col_character(),
+                            gwno_location = col_character()
+))
+
+one_sided_violence <- read_csv("raw_data/UCDP_Data_Onesided_Violence.csv",
+                               col_types = cols(
+                              conflict_id = col_double(),
+                              dyad_id = col_double(),
+                              actor_id = col_double(),
+                              coalition_components = col_character(),
+                              actor_name = col_character(),
+                              actor_name_fulltext = col_character(),
+                              actor_name_mothertongue = col_character(),
+                              year = col_double(),
+                              best_fatality_estimate = col_double(),
+                              low_fatality_estimate = col_double(),
+                              high_fatality_estimate = col_double(),
+                              is_government_actor = col_double(),
+                              location = col_character(),
+                              gwno_location = col_character(),
+                              gwnoa = col_double(),
+                              region = col_character(),
+                              version = col_double()
+))
+
+income_inequality <- read_excel("raw_data/WIID_06MAY2020.xlsx")
+
+political_institutions <- read_excel("raw_data/DPI_Data_Political_Institutions.xls")
+
+```
