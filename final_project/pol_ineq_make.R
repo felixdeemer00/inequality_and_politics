@@ -1,6 +1,7 @@
 library(tidyverse)
 library(readr)
 library(readxl)
+library(naniar)
 
 country_codes <- read_excel("final_project/raw_data/WIID_06MAY2020.xlsx") %>%
   select(c3, c2) %>%
@@ -47,7 +48,16 @@ pol_and_ineq_mod <- left_join(pol_mod, income_inequality) %>%
   select(-countryname) %>%
   left_join(gdp_per_cap) %>%
   left_join(region_data) %>%
-  drop_na()
+  replace_with_na(replace = list(finittrm = -999,
+                                 execnat = -999,
+                                 prtyin = -999,
+                                 military = -999,
+                                 maj = "NA",
+                                 polariz = "NA")) %>%
+  mutate(region = as.factor(region),
+         incomegroup = as.factor(incomegroup),
+         maj = as.numeric(maj),
+         polariz = as.numeric(polariz)) 
 
 saveRDS(pol_and_ineq_mod, file = "final_project/pol_and_ineq_mod")
 

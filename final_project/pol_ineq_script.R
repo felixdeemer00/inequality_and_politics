@@ -2,7 +2,11 @@ library(tidyverse)
 library(readr)
 library(readxl)
 
-pol_and_ineq_mod <- readRDS("pol_and_ineq_mod")
+pol_and_ineq_mod <- readRDS("final_project/pol_and_ineq_mod")
+
+pol_and_ineq_mod %>%
+  ggplot(aes(region)) +
+    geom_bar()
 
 dat_a <- pol_and_ineq_mod %>%
   filter(polariz != "NA" & percentile != "p99p100") %>%
