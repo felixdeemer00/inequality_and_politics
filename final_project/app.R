@@ -10,8 +10,8 @@
 library(tidyverse)
 library(readr)
 
-dat_a <- source("final_project/dat_a")
-dat_b <- source("final_project/dat_b")
+dat_a <- readRDS("dat_a")
+dat_b <- readRDS("dat_b")
 
 # Define UI for application that draws a histogram
     ui <- navbarPage(
@@ -59,7 +59,11 @@ server <- function(input, output) {
 
         ifelse(input$plot_type == "a", 
                dat <- dat_a,
-               dat <- dat_b)
+               ifelse(input$plot_type == "b",
+                      dat <- dat_b,
+                      dat <- dat_c))
+        
+        dat
     })
 }
 

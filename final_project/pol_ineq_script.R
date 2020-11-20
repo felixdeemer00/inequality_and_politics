@@ -37,17 +37,17 @@ paim_wflow_3 <- workflow() %>%
   add_model(linear_reg() %>%
               set_engine("stan"))
 
-metrics_1 <- paim_wflow_1 %>% 
-  fit_resamples(resamples = paim_folds) %>% 
-  collect_metrics()
-
-metrics_2 <- paim_wflow_2 %>% 
-  fit_resamples(resamples = paim_folds) %>% 
-  collect_metrics()
-
-metrics_3 <- paim_wflow_3 %>% 
-  fit_resamples(resamples = paim_folds) %>% 
-  collect_metrics()
+# metrics_1 <- paim_wflow_1 %>% 
+#   fit_resamples(resamples = paim_folds) %>% 
+#   collect_metrics()
+# 
+# metrics_2 <- paim_wflow_2 %>% 
+#   fit_resamples(resamples = paim_folds) %>% 
+#   collect_metrics()
+# 
+# metrics_3 <- paim_wflow_3 %>% 
+#   fit_resamples(resamples = paim_folds) %>% 
+#   collect_metrics()
 
 
 
@@ -73,5 +73,17 @@ dat_b <- pol_and_ineq_mod %>%
   labs(title = "How does income inequality relate to legislative majorities?") +
   facet_wrap( ~ incomegroup)
 
+dat_c <- pol_and_ineq_mod %>%
+  filter(maj != "NA" & percentile != "p99p100" & 
+           region %in% c("Middle East & North Africa", "Sub-Saharan Africa")) %>%
+  ggplot(aes(x = as.numeric(military), 
+             y = percent_income,
+             color = percentile)) +
+  geom_point(alpha = 0.1) +
+  geom_smooth(method = "lm") +
+  labs(title = "How does income inequality relate to military governments?") +
+  facet_wrap( ~ region)
+
 saveRDS(dat_a, file = "final_project/dat_a")
-saveRDS(dat_a, file = "final_project/dat_b")
+saveRDS(dat_b, file = "final_project/dat_b")
+saveRDS(dat_c, file = "final_project/dat_c")
