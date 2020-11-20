@@ -3,7 +3,8 @@ library(readr)
 library(readxl)
 library(tidymodels)
 
-pol_and_ineq_mod <- readRDS("final_project/pol_and_ineq_mod")
+pol_and_ineq_mod <- readRDS("final_project/pol_and_ineq_mod") %>%
+  drop_na()
 
 paim_split <- initial_split(pol_and_ineq_mod %>%
                               filter(percentile == "p99p100"), 
@@ -13,14 +14,44 @@ paim_test <- testing(paim_split)
 paim_folds <- vfold_cv(paim_train)
 
 paim_wflow_1 <- workflow() %>%
-  add_recipe(recipe(percent_income ~ maj + checks_lax + military,
-             data = paim_split)) %>%
+  add_recipe(recipe(percent_income ~ maj + checks_lax + 
+                    polariz + incomegroup + gdppcap + region,
+             data = paim_split) %>%
+               step_dummy(all_nominal()) %>%
+               step_interact(~ maj:starts_with("incomegroup"))) %>%
   add_model(linear_reg() %>%
-              set_engine("lm"))
+              set_engine("stan"))
 
-paim_model_1 <- paim_wflow_1 %>%
-  fit(data = paim_train) %>%
-  print(digits = 5)
+paim_wflow_2 <- workflow() %>%
+  add_recipe(recipe(percent_income ~ region + incomegroup,
+                    data = paim_split) %>%
+               step_dummy(all_nominal())) %>%
+  add_model(linear_reg() %>%
+              set_engine("stan"))
+
+paim_wflow_3 <- workflow() %>%
+  add_recipe(recipe(percent_income ~ maj + checks_lax + polariz,
+                    data = paim_split) %>%
+               step_dummy(all_nominal()) %>%
+               step_interact(~ maj:polariz)) %>%
+  add_model(linear_reg() %>%
+              set_engine("stan"))
+
+metrics_1 <- paim_wflow_1 %>% 
+  fit_resamples(resamples = paim_folds) %>% 
+  collect_metrics()
+
+metrics_2 <- paim_wflow_2 %>% 
+  fit_resamples(resamples = paim_folds) %>% 
+  collect_metrics()
+
+metrics_3 <- paim_wflow_3 %>% 
+  fit_resamples(resamples = paim_folds) %>% 
+  collect_metrics()
+
+
+
+
 
 dat_a <- pol_and_ineq_mod %>%
   filter(polariz != "NA" & percentile != "p99p100") %>%
