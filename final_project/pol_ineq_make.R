@@ -46,18 +46,24 @@ pol_mod <- political_institutions %>%
 
 pol_and_ineq_mod <- left_join(pol_mod, income_inequality) %>%
   select(-countryname) %>%
+  drop_na() %>%
   left_join(gdp_per_cap) %>%
   left_join(region_data) %>%
   replace_with_na(replace = list(finittrm = -999,
                                  execnat = -999,
                                  prtyin = -999,
                                  military = -999,
+                                 checks_lax = -999,
+                                 eiec = -999,
+                                 liec = -999,
                                  maj = "NA",
                                  polariz = "NA")) %>%
   mutate(region = as.factor(region),
          incomegroup = as.factor(incomegroup),
          maj = as.numeric(maj),
-         polariz = as.numeric(polariz)) 
+         polariz = as.numeric(polariz)) #%>%
+  #pivot_wider(names_from = percentile,
+              #values_from = percent_income)
 
 saveRDS(pol_and_ineq_mod, file = "final_project/pol_and_ineq_mod")
 
