@@ -12,6 +12,7 @@ library(readr)
 
 dat_a <- readRDS("dat_a")
 dat_b <- readRDS("dat_b")
+dat_c <- readRDS("dat_c")
 
 # Define UI for application that draws a histogram
     ui <- navbarPage(

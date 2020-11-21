@@ -2,6 +2,7 @@ library(tidyverse)
 library(readr)
 library(readxl)
 library(tidymodels)
+library(rstanarm)
 
 pol_and_ineq_mod <- readRDS("final_project/pol_and_ineq_mod") %>%
   drop_na()
@@ -41,9 +42,15 @@ paim_wflow_3 <- workflow() %>%
 #   fit_resamples(resamples = paim_folds) %>% 
 #   collect_metrics()
 # 
-# metrics_2 <- paim_wflow_2 %>% 
-#   fit_resamples(resamples = paim_folds) %>% 
-#   collect_metrics()
+metrics_2 <- paim_wflow_2 %>%
+  fit_resamples(resamples = paim_folds) %>%
+  collect_metrics()
+
+model_2 <- stan_glm(percent_income ~ region + gdppcap*gdppcap - 1,
+                    data = paim_train,
+                    refresh = 0)
+
+print(model_2, digits = 5)
 # 
 # metrics_3 <- paim_wflow_3 %>% 
 #   fit_resamples(resamples = paim_folds) %>% 
