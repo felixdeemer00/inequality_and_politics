@@ -13,6 +13,11 @@ library(readr)
 dat_a <- readRDS("dat_a")
 dat_b <- readRDS("dat_b")
 dat_c <- readRDS("dat_c")
+dat_d <- readRDS("dat_d")
+dat_e <- readRDS("dat_e")
+dat_f <- readRDS("dat_f")
+dat_g <- readRDS("dat_g")
+# dat_h <- readRDS("dat_h")
 
 # Define UI for application that draws a histogram
     ui <- navbarPage(
@@ -59,10 +64,21 @@ server <- function(input, output) {
     output$line_plot <- renderPlot({
 
         ifelse(input$plot_type == "a", 
-               dat <- dat_a,
+                 dat <- dat_a,
                ifelse(input$plot_type == "b",
-                      dat <- dat_b,
-                      dat <- dat_c))
+                 dat <- dat_b,
+               ifelse(input$plot_type == "c",
+                 dat <- dat_c,
+               ifelse(input$plot_type == "d",
+                 dat <- dat_d,
+               ifelse(input$plot_type == "e",
+                 dat <- dat_e,
+               ifelse(input$plot_type == "f",
+                        dat <- dat_f,
+               ifelse(input$plot_type == "g",
+                        dat <- dat_g,
+               ifelse(input$plot_type == "h",
+                        dat <- dat_h))))))))
         
         dat
     })

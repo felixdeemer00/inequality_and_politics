@@ -61,7 +61,8 @@ pol_and_ineq_mod <- left_join(pol_mod, income_inequality) %>%
   mutate(region = as.factor(region),
          incomegroup = as.factor(incomegroup),
          maj = as.numeric(maj),
-         polariz = as.numeric(polariz)) #%>%
+         polariz = as.factor(polariz),
+         military = as.factor(military)) #%>%
   #pivot_wider(names_from = percentile,
               #values_from = percent_income)
 
