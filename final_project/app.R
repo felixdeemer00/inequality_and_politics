@@ -1,11 +1,3 @@
-#
-# This is a Shiny web application. You can run the application by clicking
-# the 'Run App' button above.
-#
-# Find out more about building applications with Shiny here:
-#
-#    http://shiny.rstudio.com/
-#
 
 library(tidyverse)
 library(readr)
@@ -20,7 +12,6 @@ dat_g <- readRDS("dat_g")
 dat_h <- readRDS("dat_h")
 mod_table <- readRDS("mod_table")
 
-# Define UI for application that draws a histogram
     ui <- navbarPage(
         "An Economy Divided: Economic Inequality and Political Stability",
         tabPanel("Visualizations",
@@ -95,5 +86,4 @@ server <- function(input, output) {
         })
 }
 
-# Run the application 
 shinyApp(ui = ui, server = server)
