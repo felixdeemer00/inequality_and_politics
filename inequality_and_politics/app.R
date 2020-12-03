@@ -1,6 +1,12 @@
-
 library(tidyverse)
 library(readr)
+library(readxl)
+library(skimr)
+library(tidymodels)
+library(rstanarm)
+library(gtsummary)
+library(broom.mixed)
+library(gt)
 
 dat_a <- readRDS("dat_a")
 dat_b <- readRDS("dat_b")
@@ -33,10 +39,10 @@ mod_table <- readRDS("mod_table")
                      mainPanel(plotOutput("line_plot"),
                                p(""))
                      )),
-        tabPanel("Model",
+        tabPanel("Model Tab",
                  titlePanel("Model"),
                  gt_output("mod_table")),
-        tabPanel("About", 
+        tabPanel("About Tab", 
                  titlePanel("About"),
                  h3("Project Background and Motivations"),
                  p("I am interested in discovering the impacts of various forms of economic inequality

@@ -8,11 +8,11 @@ library(gtsummary)
 library(broom.mixed)
 library(gt)
 
-pol_and_ineq_mod <- readRDS("final_project/pol_and_ineq_mod") %>%
+pol_and_ineq_mod <- readRDS("inequality_and_politics/pol_and_ineq_mod") %>%
   drop_na() %>%
   filter(percentile == "p90p100")
 
-pol_and_ineq_mod_2 <- readRDS("final_project/pol_and_ineq_mod") %>%
+pol_and_ineq_mod_2 <- readRDS("inequality_and_politics/pol_and_ineq_mod") %>%
   drop_na()
 
 paim_split <- initial_split(pol_and_ineq_mod,
@@ -278,14 +278,14 @@ mod_table <- tbl_regression(model_2, intercept = TRUE) %>%
   as_gt() %>%
   tab_header(title = "Regression of Inequality Levels", 
              subtitle = "The Effect of Political Factors on Inequality") %>%
-  tab_source_note(md("Source:"))
+  tab_source_note(md("Source: DPI and WID Databases"))
 
-saveRDS(dat_a, file = "final_project/dat_a")
-saveRDS(dat_b, file = "final_project/dat_b")
-saveRDS(dat_c, file = "final_project/dat_c")
-saveRDS(dat_d, file = "final_project/dat_d")
-saveRDS(dat_e, file = "final_project/dat_e")
-saveRDS(dat_f, file = "final_project/dat_f")
-saveRDS(dat_g, file = "final_project/dat_g")
-saveRDS(dat_h, file = "final_project/dat_h")
-saveRDS(mod_table, file = "final_project/mod_table")
+saveRDS(dat_a, file = "inequality_and_politics/dat_a")
+saveRDS(dat_b, file = "inequality_and_politics/dat_b")
+saveRDS(dat_c, file = "inequality_and_politics/dat_c")
+saveRDS(dat_d, file = "inequality_and_politics/dat_d")
+saveRDS(dat_e, file = "inequality_and_politics/dat_e")
+saveRDS(dat_f, file = "inequality_and_politics/dat_f")
+saveRDS(dat_g, file = "inequality_and_politics/dat_g")
+saveRDS(dat_h, file = "inequality_and_politics/dat_h")
+saveRDS(mod_table, file = "inequality_and_politics/mod_table")

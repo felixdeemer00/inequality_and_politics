@@ -3,11 +3,11 @@ library(readr)
 library(readxl)
 library(naniar)
 
-country_codes <- read_excel("final_project/raw_data/WIID_06MAY2020.xlsx") %>%
+country_codes <- read_excel("inequality_and_politics/raw_data/WIID_06MAY2020.xlsx") %>%
   select(c3, c2) %>%
   unique()
 
-income_inequality <- read.csv("final_project/raw_data/WID_Data_Income.csv", sep = ";", skip = 1) %>%
+income_inequality <- read.csv("inequality_and_politics/raw_data/WID_Data_Income.csv", sep = ";", skip = 1) %>%
   pivot_longer(cols = -c(Year, Percentile),
                names_to = "country",
                values_to = "values") %>%
@@ -20,7 +20,7 @@ income_inequality <- read.csv("final_project/raw_data/WID_Data_Income.csv", sep 
   inner_join(., country_codes) %>%
   rename(percentile = Percentile, year = Year, percent_income = values)
 
-gdp_per_cap <- read.csv("final_project/raw_data/gdp_cap.csv", skip = 3) %>%
+gdp_per_cap <- read.csv("inequality_and_politics/raw_data/gdp_cap.csv", skip = 3) %>%
   pivot_longer(cols = X1960:X2019, names_to = "year", values_to = "gdppcap") %>%
   select(-c(X2020, X, Indicator.Name, Indicator.Code, Country.Name)) %>%
   mutate(year = map_chr(year, 
@@ -30,11 +30,11 @@ gdp_per_cap <- read.csv("final_project/raw_data/gdp_cap.csv", skip = 3) %>%
          year = map_dbl(year, as.integer)) %>%
   rename(c3 = Country.Code)
 
-region_data <- read.csv("final_project/raw_data/gdp_cap_metadata.csv") %>%
+region_data <- read.csv("inequality_and_politics/raw_data/gdp_cap_metadata.csv") %>%
   select(Country.Code, Region, IncomeGroup) %>%
   rename(c3 = Country.Code, region = Region, incomegroup = IncomeGroup)
 
-political_institutions <- read_excel("final_project/raw_data/DPI_Data_Political_Institutions.xls")
+political_institutions <- read_excel("inequality_and_politics/raw_data/DPI_Data_Political_Institutions.xls")
 
 pol_mod <- political_institutions %>%
   select(countryname, ifs, year, polariz, finittrm, military, prtyin, 
@@ -65,5 +65,5 @@ pol_and_ineq_mod <- left_join(pol_mod, income_inequality) %>%
          military = as.factor(military),
          percent_income = percent_income * 100)
 
-saveRDS(pol_and_ineq_mod, file = "final_project/pol_and_ineq_mod")
+saveRDS(pol_and_ineq_mod, file = "inequality_and_politics/pol_and_ineq_mod")
 
