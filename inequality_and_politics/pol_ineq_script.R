@@ -274,7 +274,16 @@ dat_h <- pol_and_ineq_mod_2 %>%
   theme_bw() +
   theme(legend.position = "none")
 
-mod_table <- tbl_regression(model_2, intercept = TRUE) %>%
+mod_table <- tbl_regression(model_2, intercept = TRUE, 
+                            label = list(`(Intercept)` ~ "Intercept",
+                                         liec ~ "Legislative Competitiveness (0-7)",
+                                         maj ~ "Legislative Seat %",
+                                         checks_lax ~ "Checks and Balances (0-17)",
+                                         execnat ~ "Nationalist Executive (No/Yes)",
+                                         polariz ~ "Polarization (0-2)",
+                                         incomegroup ~ "Income Group:",
+                                         gdppcap ~ "Gdp per Capita",
+                                         region ~ "Region:")) %>%
   as_gt() %>%
   tab_header(title = "Regression of Inequality Levels", 
              subtitle = "The Effect of Political Factors on Inequality") %>%
