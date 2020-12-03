@@ -44,7 +44,7 @@ mod_table <- readRDS("mod_table")
                      )),
         tabPanel("Model",
                  titlePanel("Model"),
-                 tableOutput("mod_table")),
+                 gt_output("mod_table")),
         tabPanel("About", 
                  titlePanel("About"),
                  h3("Project Background and Motivations"),
@@ -90,7 +90,7 @@ server <- function(input, output) {
         
         dat
     })
-    output$mod_table <- renderTable({
+    output$mod_table <- render_gt({
         mod_table
         })
 }
