@@ -6,6 +6,7 @@ library(tidymodels)
 library(rstanarm)
 library(gtsummary)
 library(broom.mixed)
+library(gt)
 
 pol_and_ineq_mod <- readRDS("final_project/pol_and_ineq_mod") %>%
   drop_na() %>%
@@ -273,11 +274,11 @@ dat_h <- pol_and_ineq_mod_2 %>%
   theme_bw() +
   theme(legend.position = "none")
 
-tbl_regression(model_2, intercept = TRUE) %>%
-  as_gt()# %>%
-  # tab_header(title = "Regression of Inequality Levels", 
-  #            subtitle = "The Effect of Political Factors on Inequality") %>%
-  # tab_source_note(md("Source:"))
+mod_table <- tbl_regression(model_2, intercept = TRUE) %>%
+  as_gt() %>%
+  tab_header(title = "Regression of Inequality Levels", 
+             subtitle = "The Effect of Political Factors on Inequality") %>%
+  tab_source_note(md("Source:"))
 
 saveRDS(dat_a, file = "final_project/dat_a")
 saveRDS(dat_b, file = "final_project/dat_b")
@@ -287,3 +288,4 @@ saveRDS(dat_e, file = "final_project/dat_e")
 saveRDS(dat_f, file = "final_project/dat_f")
 saveRDS(dat_g, file = "final_project/dat_g")
 saveRDS(dat_h, file = "final_project/dat_h")
+saveRDS(mod_table, file = "final_project/mod_table")

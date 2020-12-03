@@ -18,7 +18,7 @@ dat_e <- readRDS("dat_e")
 dat_f <- readRDS("dat_f")
 dat_g <- readRDS("dat_g")
 dat_h <- readRDS("dat_h")
-model <- readRDS("model")
+mod_table <- readRDS("mod_table")
 
 # Define UI for application that draws a histogram
     ui <- navbarPage(
@@ -43,13 +43,8 @@ model <- readRDS("model")
                                p(""))
                      )),
         tabPanel("Model",
-                 titlePanel("Discussion Title"),
-                 p("This graph seeks to investigate the relationship between legislative majorities
-                   and income inequality, using a linear regression model in order to find the 
-                   overall trend within the data obtained. What was found is that in environments
-                   where the ruling party has a larger legislative majority, there tends to be
-                   greater income inequality (in that the share of national income going to the
-                   bottom 50% tends to be lower.)")),
+                 titlePanel("Model"),
+                 tableOutput("mod_table")),
         tabPanel("About", 
                  titlePanel("About"),
                  h3("Project Background and Motivations"),
@@ -57,6 +52,15 @@ model <- readRDS("model")
                     (wealth and income) on political institutions and communal violence across
                     countries. Does an increase in income inequality lead to greater violence and eroded
                     political institutions? This project seeks to answer these types of questions.
+                   
+                    The data on political institutions in this project came from the Database of 
+                    Political Institutions, a database attempting to capture certain variables relating
+                    to politics, including political polarization, legislative majorities, and other
+                    things.
+                    
+                    The data on income inequality comes from the World Inequality Database. Its data
+                    seems highly reliable, as it is extremely transparent with its data sources, as
+                    well as outlining its methodology in detail.
                    
                     The github repo for my project can be found at:
                     https://github.com/felixdeemer00/inequality_and_politics"),
@@ -86,6 +90,9 @@ server <- function(input, output) {
         
         dat
     })
+    output$mod_table <- renderTable({
+        mod_table
+        })
 }
 
 # Run the application 
