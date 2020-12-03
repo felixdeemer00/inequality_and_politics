@@ -17,7 +17,8 @@ dat_d <- readRDS("dat_d")
 dat_e <- readRDS("dat_e")
 dat_f <- readRDS("dat_f")
 dat_g <- readRDS("dat_g")
-# dat_h <- readRDS("dat_h")
+dat_h <- readRDS("dat_h")
+model <- readRDS("model")
 
 # Define UI for application that draws a histogram
     ui <- navbarPage(
@@ -41,7 +42,7 @@ dat_g <- readRDS("dat_g")
                      mainPanel(plotOutput("line_plot"),
                                p(""))
                      )),
-        tabPanel("Discussion",
+        tabPanel("Model",
                  titlePanel("Discussion Title"),
                  p("This graph seeks to investigate the relationship between legislative majorities
                    and income inequality, using a linear regression model in order to find the 
@@ -55,7 +56,10 @@ dat_g <- readRDS("dat_g")
                  p("I am interested in discovering the impacts of various forms of economic inequality
                     (wealth and income) on political institutions and communal violence across
                     countries. Does an increase in income inequality lead to greater violence and eroded
-                    political institutions? This project seeks to answer these types of questions."),
+                    political institutions? This project seeks to answer these types of questions.
+                   
+                    The github repo for my project can be found at:
+                    https://github.com/felixdeemer00/inequality_and_politics"),
                  h3("About Me"),
                  p("My name is Felix Deemer and I study Government. 
              You can reach me at felixdeemer@college.harvard.edu.")))

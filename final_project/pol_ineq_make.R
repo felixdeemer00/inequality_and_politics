@@ -62,7 +62,8 @@ pol_and_ineq_mod <- left_join(pol_mod, income_inequality) %>%
          incomegroup = as.factor(incomegroup),
          maj = as.numeric(maj),
          polariz = as.factor(polariz),
-         military = as.factor(military))
+         military = as.factor(military),
+         percent_income = percent_income * 100)
 
 saveRDS(pol_and_ineq_mod, file = "final_project/pol_and_ineq_mod")
 
