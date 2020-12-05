@@ -39,27 +39,29 @@ mod_table <- readRDS("mod_table")
                      mainPanel(plotOutput("line_plot"),
                                p(""))
                      )),
-        tabPanel("Model Tab",
+        tabPanel("Model",
                  titlePanel("Model"),
                  gt_output("mod_table")),
-        tabPanel("About Tab", 
+        tabPanel("The Model in Action",
+                 titlePanel("The Model in Action")),
+        tabPanel("About", 
                  titlePanel("About"),
                  h3("Project Background and Motivations"),
                  p("I am interested in discovering the impacts of various forms of economic inequality
                     (wealth and income) on political institutions and communal violence across
                     countries. Does an increase in income inequality lead to greater violence and eroded
-                    political institutions? This project seeks to answer these types of questions.
+                    political institutions? This project seeks to answer these types of questions."),
                    
-                    The data on political institutions in this project came from the Database of 
+                 p("The data on political institutions in this project came from the Database of 
                     Political Institutions, a database attempting to capture certain variables relating
                     to politics, including political polarization, legislative majorities, and other
-                    things.
+                    things."),
                     
-                    The data on income inequality comes from the World Inequality Database. Its data
+                 p("The data on income inequality comes from the World Inequality Database. Its data
                     seems highly reliable, as it is extremely transparent with its data sources, as
-                    well as outlining its methodology in detail.
+                    well as outlining its methodology in detail."),
                    
-                    The github repo for my project can be found at:
+                 p("The github repo for my project can be found at:
                     https://github.com/felixdeemer00/inequality_and_politics"),
                  h3("About Me"),
                  p("My name is Felix Deemer and I study Government. 

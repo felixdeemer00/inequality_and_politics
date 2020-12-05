@@ -7,7 +7,8 @@ country_codes <- read_excel("inequality_and_politics/raw_data/WIID_06MAY2020.xls
   select(c3, c2) %>%
   unique()
 
-income_inequality <- read.csv("inequality_and_politics/raw_data/WID_Data_Income.csv", sep = ";", skip = 1) %>%
+income_inequality <- read.csv("inequality_and_politics/raw_data/WID_Data_Income.csv", 
+                              sep = ";", skip = 1) %>%
   pivot_longer(cols = -c(Year, Percentile),
                names_to = "country",
                values_to = "values") %>%
@@ -20,7 +21,8 @@ income_inequality <- read.csv("inequality_and_politics/raw_data/WID_Data_Income.
   inner_join(., country_codes) %>%
   rename(percentile = Percentile, year = Year, percent_income = values)
 
-gdp_per_cap <- read.csv("inequality_and_politics/raw_data/gdp_cap.csv", skip = 3) %>%
+gdp_per_cap <- read.csv("inequality_and_politics/raw_data/gdp_cap.csv", 
+                        skip = 3) %>%
   pivot_longer(cols = X1960:X2019, names_to = "year", values_to = "gdppcap") %>%
   select(-c(X2020, X, Indicator.Name, Indicator.Code, Country.Name)) %>%
   mutate(year = map_chr(year, 
@@ -66,4 +68,3 @@ pol_and_ineq_mod <- left_join(pol_mod, income_inequality) %>%
          percent_income = percent_income * 100)
 
 saveRDS(pol_and_ineq_mod, file = "inequality_and_politics/pol_and_ineq_mod")
-
