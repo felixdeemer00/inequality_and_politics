@@ -8,11 +8,11 @@ library(gtsummary)
 library(broom.mixed)
 library(gt)
 
-pol_and_ineq_mod <- readRDS("inequality_and_politics/pol_and_ineq_mod") %>%
+pol_and_ineq_mod <- readRDS("inequality_and_politics/rdsFiles/pol_and_ineq_mod") %>%
   drop_na() %>%
   filter(percentile == "p90p100")
 
-pol_and_ineq_mod_2 <- readRDS("inequality_and_politics/pol_and_ineq_mod") %>%
+pol_and_ineq_mod_2 <- readRDS("inequality_and_politics/rdsFiles/pol_and_ineq_mod") %>%
   drop_na()
 
 paim_split <- initial_split(pol_and_ineq_mod,
@@ -37,7 +37,6 @@ paim_wflow_1 <- workflow() %>%
 model_1 <- stan_glm(percent_income ~
                       liec + maj + checks_lax + execnat + polariz +
                       incomegroup +
-                      gdppcap +
                       region +
                       maj * incomegroup +
                       maj * region,
@@ -257,7 +256,6 @@ newdata_a <- tibble(polariz = as.factor(c(0,1,2)),
                     liec = 7,
                     checks_lax = 8,
                     execnat = 0,
-                    gdppcap = 4000,
                     incomegroup = as.factor("Lower middle income"),
                     region = as.factor("Middle East & North Africa"))
 
@@ -281,7 +279,6 @@ newdata_b <- tibble(polariz = as.factor(0),
                     liec = 7,
                     checks_lax = 8,
                     execnat = 0,
-                    gdppcap = 4000,
                     incomegroup = as.factor("Lower middle income"),
                     region = as.factor("Middle East & North Africa"))
 
@@ -305,7 +302,6 @@ newdata_c <- tibble(polariz = as.factor(0),
                     liec = c(1,3.5,7),
                     checks_lax = 8,
                     execnat = 0,
-                    gdppcap = 4000,
                     incomegroup = as.factor("Lower middle income"),
                     region = as.factor("Middle East & North Africa"))
 
@@ -331,7 +327,6 @@ newdata_d <- tibble(polariz = as.factor(0),
                     liec = 7,
                     checks_lax = c(1, 8, 17),
                     execnat = 0,
-                    gdppcap = 4000,
                     incomegroup = as.factor("Lower middle income"),
                     region = as.factor("Middle East & North Africa"))
 
@@ -357,7 +352,6 @@ newdata_e <- tibble(polariz = as.factor(0),
                     liec = 7,
                     checks_lax = 8,
                     execnat = c(0,1),
-                    gdppcap = 4000,
                     incomegroup = as.factor("Lower middle income"),
                     region = as.factor("Middle East & North Africa"))
 
@@ -382,7 +376,6 @@ newdata_f <- tibble(polariz = as.factor(0),
                     liec = 7,
                     checks_lax = 8,
                     execnat = 0,
-                    gdppcap = 4000,
                     incomegroup = as.factor(c("High income",
                                             "Upper middle income",
                                             "Lower middle income",
@@ -415,7 +408,6 @@ newdata_g <- tibble(polariz = as.factor(0),
                     liec = 7,
                     checks_lax = 8,
                     execnat = 0,
-                    gdppcap = 4000,
                     incomegroup = as.factor("Low income"),
                     region = as.factor(c("Middle East & North Africa",
                                          "Europe & Central Asia",
@@ -454,7 +446,6 @@ mod_table <- tbl_regression(model_1, intercept = TRUE,
                                     execnat ~ "Nationalist Executive (No/Yes)",
                                     polariz ~ "Polarization (0-2)",
                                     incomegroup ~ "Income Group:",
-                                    gdppcap ~ "Gdp per Capita",
                                     region ~ "Region:")) %>%
   as_gt() %>%
   tab_header(title = "Regression of Inequality Levels", 
