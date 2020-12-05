@@ -8,15 +8,16 @@ library(gtsummary)
 library(broom.mixed)
 library(gt)
 
-dat_a <- readRDS("dat_a")
-dat_b <- readRDS("dat_b")
-dat_c <- readRDS("dat_c")
-dat_d <- readRDS("dat_d")
-dat_e <- readRDS("dat_e")
-dat_f <- readRDS("dat_f")
-dat_g <- readRDS("dat_g")
-dat_h <- readRDS("dat_h")
-mod_table <- readRDS("mod_table")
+dat_a <- readRDS("rdsFiles/dat_a")
+dat_b <- readRDS("rdsFiles/dat_b")
+dat_c <- readRDS("rdsFiles/dat_c")
+dat_d <- readRDS("rdsFiles/dat_d")
+dat_e <- readRDS("rdsFiles/dat_e")
+dat_f <- readRDS("rdsFiles/dat_f")
+dat_g <- readRDS("rdsFiles/dat_g")
+dat_h <- readRDS("rdsFiles/dat_h")
+model_1 <- readRDS("rdsFiles/model_1")
+mod_table <- readRDS("rdsFiles/mod_table")
 
     ui <- navbarPage(
         "An Economy Divided: Economic Inequality and Political Stability",
@@ -43,7 +44,74 @@ mod_table <- readRDS("mod_table")
                  titlePanel("Model"),
                  gt_output("mod_table")),
         tabPanel("The Model in Action",
-                 titlePanel("The Model in Action")),
+                 titlePanel("The Model in Action"),
+                 sidebarPanel(width = 2,
+                     selectInput(
+                         "incomegroup1",
+                         "Income Group",
+                         c("High income" = "High income",
+                           "Upper middle income" = "Upper middle income",
+                           "Lower middle income" = "Lower middle income",
+                           "Low income" = "Low income")),
+                     selectInput(
+                         "region1",
+                         "Region",
+                         c("Middle East & North Africa" = "Middle East & North Africa",
+                           "Europe & Central Asia" = "Europe & Central Asia",
+                           "East Asia & Pacific" = "East Asia & Pacific",
+                           "Latin America & Caribbean" = "Latin America & Caribbean",
+                           "North America" = "North America",
+                           "South Asia" = "South Asia",
+                           "Sub-Saharan Africa" = "Sub-Saharan Africa")),
+                     sliderInput("polariz1", "Polarization",
+                                 min = 0, max = 2,
+                                 value = 0),
+                     sliderInput("maj1", "Legislative Majority",
+                                 min = 0, max = 1,
+                                 step = 0.01, value = 0.5),
+                     sliderInput("execnat1", "Nationalist Executive",
+                                 min = 0, max = 1,
+                                 step = 1, value = 0),
+                     sliderInput("checks_lax1", "Checks & Balances",
+                                 min = 1, max = 17,
+                                 value = 8),
+                     sliderInput("liec1", "Legislative Competitiveness",
+                                 min = 1, max = 7,
+                                 value = 7)),
+                 mainPanel(plotOutput("custom_plot")),
+                 sidebarPanel(width = 2,
+                     selectInput(
+                         "incomegroup2",
+                         "Income Group",
+                         c("High income" = "High income",
+                           "Upper middle income" = "Upper middle income",
+                           "Lower middle income" = "Lower middle income",
+                           "Low income" = "Low income")),
+                     selectInput(
+                         "region2",
+                         "Region",
+                         c("Middle East & North Africa" = "Middle East & North Africa",
+                           "Europe & Central Asia" = "Europe & Central Asia",
+                           "East Asia & Pacific" = "East Asia & Pacific",
+                           "Latin America & Caribbean" = "Latin America & Caribbean",
+                           "North America" = "North America",
+                           "South Asia" = "South Asia",
+                           "Sub-Saharan Africa" = "Sub-Saharan Africa")),
+                     sliderInput("polariz2", "Polarization",
+                                 min = 0, max = 2,
+                                 value = 0),
+                     sliderInput("maj2", "Legislative Majority",
+                                 min = 0, max = 1,
+                                 step = 0.01, value = 0.5),
+                     sliderInput("execnat2", "Nationalist Executive",
+                                 min = 0, max = 1,
+                                 step = 1, value = 0),
+                     sliderInput("checks_lax2", "Checks & Balances",
+                                 min = 1, max = 17,
+                                 value = 8),
+                     sliderInput("liec2", "Legislative Competitiveness",
+                                 min = 1, max = 7,
+                                 value = 7))),
         tabPanel("About", 
                  titlePanel("About"),
                  h3("Project Background and Motivations"),
@@ -92,6 +160,37 @@ server <- function(input, output) {
     output$mod_table <- render_gt({
         mod_table
         })
+    output$custom_plot <- renderPlot({
+        
+        custom_data <- tibble(polariz = as.factor(c(input$polariz1[1], 
+                                                    input$polariz2[1])),
+                              maj = c(input$maj1[1], 
+                                      input$maj2[1]),
+                              liec = c(input$liec1[1], 
+                                       input$liec2[1]),
+                              checks_lax = c(input$checks_lax1[1], 
+                                             input$checks_lax2[1]),
+                              execnat = c(input$execnat1[1], 
+                                          input$execnat2[1]),
+                              incomegroup = as.factor(c(input$incomegroup1[1], 
+                                                        input$incomegroup2[1])),
+                              region = as.factor(c(input$region1[1], 
+                                                   input$region2[1])))
+        
+        posterior_epred(model_1,
+                        newdata = custom_data) %>%
+            as_tibble() %>%
+            pivot_longer(cols = `1`:`2`) %>%
+            ggplot(aes(value, y = after_stat(count/sum(count)), fill = name)) +
+            geom_density(alpha = 0.4) +
+            labs(x = "% of National Income held by Top 10%",
+                 y = "Probability") +
+            scale_x_continuous(limits = c(0,100)) +
+            scale_fill_manual(name = "Input",
+                              labels = c("Left", 
+                                         "Right"),
+                              values = c("blue", "red"))
+    })
 }
 
 shinyApp(ui = ui, server = server)
