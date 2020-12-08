@@ -17,22 +17,27 @@ dat_e <- readRDS("rdsFiles/dat_e")
 dat_f <- readRDS("rdsFiles/dat_f")
 dat_g <- readRDS("rdsFiles/dat_g")
 dat_h <- readRDS("rdsFiles/dat_h")
+mia_a <- readRDS("rdsFiles/mia_a")
+mia_b <- readRDS("rdsFiles/mia_b")
+mia_c <- readRDS("rdsFiles/mia_c")
+mia_d <- readRDS("rdsFiles/mia_d")
+mia_e <- readRDS("rdsFiles/mia_e")
+mia_f <- readRDS("rdsFiles/mia_f")
+mia_g <- readRDS("rdsFiles/mia_g")
 model_1 <- readRDS("rdsFiles/model_1")
 mod_table <- readRDS("rdsFiles/mod_table")
 
     ui <- navbarPage(theme = shinytheme("flatly"),
         "Economic Inequality and Political Stability",
-        tabPanel("About", 
-                 titlePanel("About"),
-                 h3("Project Background and Motivations"),
-                 p("In this project, I set out to discover the relationship between income inequality
+        tabPanel("About",
+                 fluidPage(
+                     titlePanel("How does Income Inequality affect Politics?"),
+                     h3("About the Project"),
+                     p("In this project, I set out to discover the relationship between income inequality
                     and the political environment of a country. Does an increase in income inequality 
                     weaken political institutions or increase polarization? How does the legislative
                     majority of the ruling party correlate with income inequality?
-                    This project seeks to answer these types of questions.")),
-        tabPanel("Visualizations",
-                 fluidPage(
-                     titlePanel("How does Income Inequality affect Politics?"),
+                    This project seeks to answer these types of questions."),
                      sidebarPanel(
                          selectInput(
                              "plot_type",
@@ -52,6 +57,21 @@ mod_table <- readRDS("rdsFiles/mod_table")
         tabPanel("Model",
                  titlePanel("Model"),
                  gt_output("mod_table")),
+        tabPanel("Observations",
+                 titlePanel("Model"),
+                 sidebarPanel(
+                     selectInput(
+                         "plot_type2",
+                         "Plot Type",
+                         c("Polarization" = "a", 
+                           "Legislative Majority" = "b",
+                           "Election Competitiveness" = "c",
+                           "Checks and Balances" = "d",
+                           "Nationalist Executive in Power" = "e",
+                           "Income Group" = "f",
+                           "Region" = "g")
+                     )),
+                 mainPanel(plotOutput("line_plot2"))),
         tabPanel("The Model in Action",
                  titlePanel("The Model in Action"),
                  sidebarPanel(width = 2,
@@ -164,6 +184,27 @@ server <- function(input, output) {
                         dat <- dat_h))))))))
         
         dat
+    })
+    output$line_plot2 <- renderPlot({
+        
+        ifelse(input$plot_type2 == "a", 
+               mia <- mia_a,
+               ifelse(input$plot_type2 == "b",
+                      mia <- mia_b,
+                      ifelse(input$plot_type2 == "c",
+                             mia <- mia_c,
+                             ifelse(input$plot_type2 == "d",
+                                    mia <- mia_d,
+                                    ifelse(input$plot_type2 == "e",
+                                           mia <- mia_e,
+                                           ifelse(input$plot_type2 == "f",
+                                                  mia <- mia_f,
+                                                  ifelse(input$plot_type2 == "g",
+                                                         mia <- mia_g,
+                                                         ifelse(input$plot_type2 == "h",
+                                                                mia <- mia_h))))))))
+        
+        mia
     })
     output$mod_table <- render_gt({
         mod_table
