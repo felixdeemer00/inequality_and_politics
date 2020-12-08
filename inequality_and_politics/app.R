@@ -7,6 +7,7 @@ library(rstanarm)
 library(gtsummary)
 library(broom.mixed)
 library(gt)
+library(shinythemes)
 
 dat_a <- readRDS("rdsFiles/dat_a")
 dat_b <- readRDS("rdsFiles/dat_b")
@@ -19,8 +20,16 @@ dat_h <- readRDS("rdsFiles/dat_h")
 model_1 <- readRDS("rdsFiles/model_1")
 mod_table <- readRDS("rdsFiles/mod_table")
 
-    ui <- navbarPage(
-        "An Economy Divided: Economic Inequality and Political Stability",
+    ui <- navbarPage(theme = shinytheme("flatly"),
+        "Economic Inequality and Political Stability",
+        tabPanel("About", 
+                 titlePanel("About"),
+                 h3("Project Background and Motivations"),
+                 p("In this project, I set out to discover the relationship between income inequality
+                    and the political environment of a country. Does an increase in income inequality 
+                    weaken political institutions or increase polarization? How does the legislative
+                    majority of the ruling party correlate with income inequality?
+                    This project seeks to answer these types of questions.")),
         tabPanel("Visualizations",
                  fluidPage(
                      titlePanel("How does Income Inequality affect Politics?"),
@@ -112,25 +121,24 @@ mod_table <- readRDS("rdsFiles/mod_table")
                      sliderInput("liec2", "Legislative Competitiveness",
                                  min = 1, max = 7,
                                  value = 7))),
-        tabPanel("About", 
-                 titlePanel("About"),
-                 h3("Project Background and Motivations"),
-                 p("I am interested in discovering the impacts of various forms of economic inequality
-                    (wealth and income) on political institutions and communal violence across
-                    countries. Does an increase in income inequality lead to greater violence and eroded
-                    political institutions? This project seeks to answer these types of questions."),
-                   
+        tabPanel("Info", 
+                 h3("Information on Sources:"),
+                 
                  p("The data on political institutions in this project came from the Database of 
                     Political Institutions, a database attempting to capture certain variables relating
                     to politics, including political polarization, legislative majorities, and other
-                    things."),
-                    
+                    things. This data can be found ",
+                   a(href = "https://datacatalog.worldbank.org/dataset/wps2283-database-political-institutions",
+                     "here.")),
+                 
                  p("The data on income inequality comes from the World Inequality Database. Its data
                     seems highly reliable, as it is extremely transparent with its data sources, as
-                    well as outlining its methodology in detail."),
-                   
-                 p("The github repo for my project can be found at:
-                    https://github.com/felixdeemer00/inequality_and_politics"),
+                    well as outlining its methodology in detail. This data can be found ",
+                   a(href = "https://wid.world/data/", "here.")),
+                 
+                 p("The github repo for my project can be found at my ",
+                   a(href = "https://github.com/felixdeemer00/inequality_and_politics",
+                     "Github")),
                  h3("About Me"),
                  p("My name is Felix Deemer and I study Government. 
              You can reach me at felixdeemer@college.harvard.edu.")))

@@ -8,6 +8,10 @@ library(gtsummary)
 library(broom.mixed)
 library(gt)
 
+# I created two separate forms of the pol_and_ineq_mod object, one to be used 
+# in the model, filtering all data except that for the income of the top 10%,
+# and one showing all three income groups, to be used in the data visualization.
+
 pol_and_ineq_mod <- readRDS("inequality_and_politics/rdsFiles/pol_and_ineq_mod") %>%
   drop_na() %>%
   filter(percentile == "p90p100")
@@ -20,6 +24,10 @@ paim_split <- initial_split(pol_and_ineq_mod,
 paim_train <- training(paim_split)
 paim_test <- testing(paim_split)
 paim_folds <- vfold_cv(paim_train)
+
+# The workflow was created to evaluate the different models, although it is not
+# used in the final model - a stan_glm() function is used instead as it is 
+# easier to display and to use to generate graphs quickly.
 
 paim_wflow_1 <- workflow() %>%
   add_recipe(recipe(percent_income ~
@@ -451,6 +459,9 @@ mod_table <- tbl_regression(model_1, intercept = TRUE,
   tab_header(title = "Regression of Inequality Levels", 
              subtitle = "The Effect of Political Factors on Inequality") %>%
   tab_source_note(md("Source: DPI and WID Databases"))
+
+# After the graphs were all created, I saved them in the folder to save time
+# that would be spent generating them in the main shiny app.
 
 saveRDS(dat_a, file = "inequality_and_politics/rdsFiles/dat_a")
 saveRDS(dat_b, file = "inequality_and_politics/rdsFiles/dat_b")
