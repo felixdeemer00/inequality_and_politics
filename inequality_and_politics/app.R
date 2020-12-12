@@ -68,24 +68,29 @@ mod_table <- readRDS("rdsFiles/mod_table")
                    Tests in Comparative Political Economy’, published by the 
                    World Bank Development Research Group. These are the 
                    different political variables:"),
-                 p("1. Legislative Competitiveness: The competitiveness of 
+                 strong("1. Legislative Competitiveness: "),
+                 p("The competitiveness of 
                    elections to the legislature, as determined by the number of 
                    parties competing, as well as the vote share of the largest 
                    party, ranging from a score of 1 (no legislature) to 7 (the 
                    largest party received less than 75% of the seats)."),
-                 p("2. Legislative Majority: The legislative majority held by the 
+                 strong("2. Legislative Majority: "),
+                 p("The legislative majority held by the 
                    ruling party, not counting coalition partners."),
-                 p("3. Checks and Balances: The number of veto players in a 
+                 strong("3. Checks and Balances: "),
+                 p("The number of veto players in a 
                    political system, with the total number adjusted according to 
                    whether or not these veto players are independent of each 
                    other. This independence is determined according to 
                    legislative competitiveness and the political affiliations of 
                    the veto players."),
-                 p("4. Nationalist Executive: If the executive’s party is 
+                 strong("4. Nationalist Executive: "),
+                 p("If the executive’s party is 
                    nationalist, defined by a whether or not their platform 
                    discusses the creation or defense of a national or ethnic 
                    identity."),
-                 p("5. Polarization: The maximum difference in political 
+                 strong("5. Polarization: "),
+                 p("The maximum difference in political 
                    orientation between government parties, representing the 
                    political uniformity of the ruling coalition."),
                  p("Many different political and economic variables were 
@@ -104,8 +109,10 @@ mod_table <- readRDS("rdsFiles/mod_table")
                  p("In this table, the Intercept represents the expected portion
                    of national income held by the top 10% in a High Income 
                    country in the East Asia & Pacific Region, with a 
-                   polarization level of 0. To see all of the interpretations of
-                   these numbers, view the 'Model Observations' tab."),
+                   polarization level of 0."), 
+                 strong("To see the interpretations of
+                   these numbers, see the 'Model Observations' tab."),
+                 p(""),
                  gt_output("mod_table")),
         tabPanel("Observations",
                  titlePanel("Observations"),
@@ -126,9 +133,58 @@ mod_table <- readRDS("rdsFiles/mod_table")
                            "Region" = "g")
                      )),
                  mainPanel(plotOutput("line_plot2")),
-                p("HERE IS WHERE I'LL DISCUSS THE FINDINGS FROM THE MODEL AND
-                  THEIR IMPLICATIONS")),
-        tabPanel("The Model in Action",
+                strong("Polarization: "),
+                p("An increase of polarization from 0 to 1 leads
+                   to a 0.83 increase in the income share of the top 10%, while
+                   a polarization level of 2 leads to a -0.73 drop in top 10%
+                   income share. This effect is fairly small, and both have 
+                   confidence ranges that overlap with 0, but despite this 
+                   it does seem to indicate that moderate polarization leads to
+                   slightly higher inequality, while high polarization lowers it
+                  slightly."),
+                strong("Legislative Majority:"),
+                p("The correlation of a legislative 
+                  majority with income inequality in the model is dependent on 
+                  two other variables, as an interaction term was used - region 
+                  and income group. For High Income countries in the East Asia & 
+                  Pacific region, the model predicts an increase of .039 in the 
+                  top 10%'s income share for every 1% increase of the 
+                  legislative majority of the governing party. This figure 
+                  varies significantly between regions, although the effect is 
+                  most pronounced for the South Asia and Middle East & North 
+                  Africa regions, which experience drastic changes in opposite 
+                  directions."),
+                strong("Legislative Election Competitiveness:"),
+                p("An increase in 
+                  legislative competitiveness are actually associated with a 
+                  greater top 10% income share and higher levels of inequality,
+                  somewhat surprisingly. Each increase of 1 in the legislative
+                  competitiveness index created in the paper leads to an 
+                  increase of 0.73% in the top 10% income share."),
+                strong("Checks and Balances:"),
+                p("As the number of veto players in a 
+                   political system increase, this is associated with a decline
+                   in the top 10% income share, perhaps as there are more
+                   robust systems in place to prevent the formation of an 
+                   oligarchy of some form."),
+                strong("Nationalist Executive:"),
+                p("A nationalist executive being in 
+                   office is associated with a top 10% income share 4.1% higher
+                   than otherwise, a fairly noticeable shift in inequality. It 
+                   is not clear why this would be the case - perhaps this 
+                   reflects that more unequal countries are more likely to elect
+                   a nationalist chief executive."),
+                strong("Income Group:"),
+                p("Most of the income groups are associated with fairly similar
+                   levels of income inequality, with between a 30-37% top 10% 
+                   income share, with High Income countries experiencing the 
+                   lowest levels. Somewhat surprisingly, Upper-Middle Income 
+                   countries are associated with a drastically higher level of 
+                   income inequality, a large margin over the other three 
+                  groups."),
+                strong(""),
+                p("")),
+        tabPanel("Model in Action",
                  titlePanel("The Model in Action"),
                  p("This application allows one to interact with the model, 
                  setting various parameters for two hypothetical countries and
