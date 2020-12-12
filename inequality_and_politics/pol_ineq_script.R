@@ -10,7 +10,8 @@ library(gt)
 
 # I created two separate forms of the pol_and_ineq_mod object, one to be used 
 # in the model, filtering all data except that for the income of the top 10%,
-# and one showing all three income groups, to be used in the data visualization.
+# as that was the value to be predicted by the model, and one showing all three 
+# income groups, to be used in the data visualization.
 
 pol_and_ineq_mod <- readRDS("inequality_and_politics/rdsFiles/pol_and_ineq_mod") %>%
   drop_na() %>%
@@ -273,6 +274,7 @@ mia_a <- posterior_epred(model_1,
   pivot_longer(cols = `1`:`3`) %>%
   ggplot(aes(value, y = after_stat(count/sum(count)),fill = name)) +
   geom_density(alpha = 0.4) +
+  theme_bw() +
   scale_fill_manual(name = "Polarization",
                     labels = c("1", "2", "3"),
                     values = c("yellow", "orange", "red")) +
@@ -296,6 +298,7 @@ mia_b <- posterior_epred(model_1,
   pivot_longer(cols = `1`:`3`) %>%
   ggplot(aes(value, y = after_stat(count/sum(count)),fill = name)) +
   geom_density(alpha = 0.4) +
+  theme_bw() +
   scale_fill_manual(name = "Majority of Ruling Party",
                     labels = c("1/2 Majority", "2/3 Majority", "3/4 Majority"),
                     values = c("yellow", "orange", "red")) +
@@ -319,6 +322,7 @@ mia_c <- posterior_epred(model_1,
   pivot_longer(cols = `1`:`3`) %>%
   ggplot(aes(value, y = after_stat(count/sum(count)),fill = name)) +
   geom_density(alpha = 0.4) +
+  theme_bw() +
   scale_fill_manual(name = "Election Competitiveness",
                     labels = c("Not Competitive", 
                                "Somewhat Competitive", 
@@ -344,6 +348,7 @@ mia_d <- posterior_epred(model_1,
   pivot_longer(cols = `1`:`3`) %>%
   ggplot(aes(value, y = after_stat(count/sum(count)), fill = name)) +
   geom_density(alpha = 0.4) +
+  theme_bw() +
   scale_fill_manual(name = "Checks and Balances",
                     labels = c("Weak Checks & Balances", 
                                "Moderate Checks & Balances", 
@@ -369,6 +374,7 @@ mia_e <- posterior_epred(model_1,
   pivot_longer(cols = `1`:`2`) %>%
   ggplot(aes(value, y = after_stat(count/sum(count)),fill = name)) +
   geom_density(alpha = 0.4) +
+  theme_bw() +
   scale_fill_manual(name = "Nationalist Executive",
                     labels = c("No Nat. Exec. in power", 
                                "Nat. Exec. in power"),
@@ -396,6 +402,7 @@ mia_f <- posterior_epred(model_1,
   pivot_longer(cols = `1`:`4`) %>%
   ggplot(aes(value, y = after_stat(count/sum(count)),fill = name)) +
   geom_density(alpha = 0.4) +
+  theme_bw() +
   scale_fill_manual(name = "Income Group",
                     labels = c("High income",
                                "Upper middle income",
@@ -431,6 +438,7 @@ mia_g <- posterior_epred(model_1,
   pivot_longer(cols = `1`:`7`) %>%
   ggplot(aes(value, y = after_stat(count/sum(count)),fill = name)) +
   geom_density(alpha = 0.4) +
+  theme_bw() +
   scale_fill_manual(name = "Region",
                     labels = c("Middle East & North Africa",
                                "Europe & Central Asia",

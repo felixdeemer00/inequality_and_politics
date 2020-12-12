@@ -61,7 +61,7 @@ political_institutions <- read_excel("inequality_and_politics/raw_data/DPI_Data_
 pol_mod <- political_institutions %>%
   select(countryname, ifs, year, polariz, finittrm, military, prtyin, 
          execnat, maj, checks_lax, liec, eiec) %>%
-  filter(year > 2000, ifs != 0) %>%
+  filter(year > 1990, ifs != 0) %>%
   drop_na() %>%
   mutate(year = as.double(year)) %>%
   rename(c3 = ifs)

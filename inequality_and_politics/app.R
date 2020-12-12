@@ -33,11 +33,13 @@ mod_table <- readRDS("rdsFiles/mod_table")
                  fluidPage(
                      titlePanel("How does Income Inequality affect Politics?"),
                      h3("About the Project"),
-                     p("In this project, I set out to discover the relationship between income inequality
-                    and the political environment of a country. Does an increase in income inequality 
-                    weaken political institutions or increase polarization? How does the legislative
-                    majority of the ruling party correlate with income inequality?
-                    This project seeks to answer these types of questions."),
+                     p("In this project, I set out to discover the relationship 
+                     between income inequality and the political environment of 
+                     a country. Does an increase in income inequality weaken 
+                     political institutions or increase polarization? How does 
+                     the legislative majority of the ruling party correlate with 
+                     income inequality? This project seeks to answer these types 
+                     of questions."),
                      sidebarPanel(
                          selectInput(
                              "plot_type",
@@ -54,11 +56,12 @@ mod_table <- readRDS("rdsFiles/mod_table")
                      mainPanel(plotOutput("line_plot"),
                                p(""))
                      )),
-        tabPanel("Model",
-                 titlePanel("Model"),
-                 gt_output("mod_table")),
         tabPanel("Observations",
-                 titlePanel("Model"),
+                 titlePanel("Observations"),
+                 p("The findings of the model are discussed below, while the 
+                   graphs visually display the findings of the model, applied
+                   to a hypothetical country in which all variables remain
+                   constant except for the one being varied."),
                  sidebarPanel(
                      selectInput(
                          "plot_type2",
@@ -71,9 +74,17 @@ mod_table <- readRDS("rdsFiles/mod_table")
                            "Income Group" = "f",
                            "Region" = "g")
                      )),
-                 mainPanel(plotOutput("line_plot2"))),
+                 mainPanel(plotOutput("line_plot2")),
+                p("HERE IS WHERE I'LL DISCUSS THE FINDINGS FROM THE MODEL AND
+                  THEIR IMPLICATIONS")),
         tabPanel("The Model in Action",
                  titlePanel("The Model in Action"),
+                 p("This application allows one to interact with the model, 
+                 setting various parameters for two hypothetical countries and
+                 observing the predicted posterior distributions for the income
+                 share of the top 10%. The blue distribution corresponds to the
+                 sidebar on the left, while the red corresponds to the right
+                 sidebar."),
                  sidebarPanel(width = 2,
                      selectInput(
                          "incomegroup1",
@@ -85,10 +96,12 @@ mod_table <- readRDS("rdsFiles/mod_table")
                      selectInput(
                          "region1",
                          "Region",
-                         c("Middle East & North Africa" = "Middle East & North Africa",
+                         c("Middle East & North Africa" = 
+                               "Middle East & North Africa",
                            "Europe & Central Asia" = "Europe & Central Asia",
                            "East Asia & Pacific" = "East Asia & Pacific",
-                           "Latin America & Caribbean" = "Latin America & Caribbean",
+                           "Latin America & Caribbean" = 
+                               "Latin America & Caribbean",
                            "North America" = "North America",
                            "South Asia" = "South Asia",
                            "Sub-Saharan Africa" = "Sub-Saharan Africa")),
@@ -119,10 +132,12 @@ mod_table <- readRDS("rdsFiles/mod_table")
                      selectInput(
                          "region2",
                          "Region",
-                         c("Middle East & North Africa" = "Middle East & North Africa",
+                         c("Middle East & North Africa" = 
+                               "Middle East & North Africa",
                            "Europe & Central Asia" = "Europe & Central Asia",
                            "East Asia & Pacific" = "East Asia & Pacific",
-                           "Latin America & Caribbean" = "Latin America & Caribbean",
+                           "Latin America & Caribbean" = 
+                               "Latin America & Caribbean",
                            "North America" = "North America",
                            "South Asia" = "South Asia",
                            "Sub-Saharan Africa" = "Sub-Saharan Africa")),
@@ -141,24 +156,78 @@ mod_table <- readRDS("rdsFiles/mod_table")
                      sliderInput("liec2", "Legislative Competitiveness",
                                  min = 1, max = 7,
                                  value = 7))),
+        tabPanel("Model Discussion",
+                 titlePanel("Model Discussion"),
+                 p("The factors that went into the model can be roughly grouped 
+                   into political, economic, and regional factors. Economic 
+                   factors are comprised of the income group of each country, 
+                   and regional factors are comprised of the region a country is 
+                   located in, as defined by the World Bank. The political 
+                   factors are slightly more qualitative in nature, as many of 
+                   them do not have a strict set of definitions. The scores were 
+                   assigned to individual countries by political science 
+                   researchers, as outlined under the paper ‘New Tools and New 
+                   Tests in Comparative Political Economy.’ These are the 
+                   different political variables:"),
+                 p("1. Legislative Competitiveness: The competitiveness of 
+                   elections to the legislature, as determined by the number of 
+                   parties competing, as well as the vote share of the largest 
+                   party, ranging from a score of 1 (no legislature) to 7 (the 
+                   largest party received less than 75% of the seats)."),
+                 p("2. Legislative Majority: The legislative majority held by the 
+                   ruling party, not counting coalition partners."),
+                 p("3. Checks and Balances: The number of veto players in a 
+                   political system, with the total number adjusted according to 
+                   whether or not these veto players are independent of each 
+                   other. This independence is determined according to 
+                   legislative competitiveness and the political affiliations of 
+                   the veto players."),
+                 p("4. Nationalist Executive: If the executive’s party is 
+                   nationalist, defined by a whether or not their platform 
+                   discusses the creation or defense of a national or ethnic 
+                   identity."),
+                 p("5. Polarization: The maximum difference in political 
+                   orientation between government parties, representing the 
+                   political uniformity of the ruling coalition."),
+                 p("Many different political and economic variables were 
+                   considered for the model but did not make it into the final 
+                   model, such as the presence of term limits, the length of 
+                   time the ruling party had been in power, and the GDP per 
+                   capita of the country. These were excluded for two reasons: 
+                   either they did not improve the predictive power of the model 
+                   (such as for term limits, number of years the ruling party 
+                   had been in power), or because I judged they overlapped 
+                   significantly with variables already factored into the model, 
+                   leading to distortion of the final values (GDP per capita 
+                   overlaps with income group, executive election 
+                   competitiveness overlaps with legislative election 
+                   competitiveness). "),
+                 p("In this table, the Intercept represents the expected portion
+                   of national income held by the top 10% in a High Income 
+                   country in the East Asia & Pacific Region, with a 
+                   polarization level of 0."),
+                 gt_output("mod_table")),
         tabPanel("Info", 
                  h3("Information on Sources:"),
                  
-                 p("The data on political institutions in this project came from the Database of 
-                    Political Institutions, a database attempting to capture certain variables relating
-                    to politics, including political polarization, legislative majorities, and other
-                    things. This data can be found ",
-                   a(href = "https://datacatalog.worldbank.org/dataset/wps2283-database-political-institutions",
+                 p("The data on political institutions in this project came from
+                   the Database of Political Institutions, a database that 
+                   measures variables relating to politics and political 
+                   institutions, including political polarization, legislative 
+                   majorities, and other things. This data can be found ",
+                 a(href = "https://datacatalog.worldbank.org/dataset/wps2283-database-political-institutions",
                      "here.")),
                  
-                 p("The data on income inequality comes from the World Inequality Database. Its data
-                    seems highly reliable, as it is extremely transparent with its data sources, as
-                    well as outlining its methodology in detail. This data can be found ",
-                   a(href = "https://wid.world/data/", "here.")),
+                 p("The data on income inequality comes from the World 
+                   Inequality Database. Its data is reliable, as the database is 
+                   extremely transparent with its data sources, as well as 
+                   outlining its methodology in detail. This data can be 
+                   found ",
+                 a(href = "https://wid.world/data/", "here.")),
                  
-                 p("The github repo for my project can be found at my ",
-                   a(href = "https://github.com/felixdeemer00/inequality_and_politics",
-                     "Github")),
+                 p("The github repo for my project can be found ",
+                 a(href = "https://github.com/felixdeemer00/inequality_and_politics",
+                     "here.")),
                  h3("About Me"),
                  p("My name is Felix Deemer and I study Government. 
              You can reach me at felixdeemer@college.harvard.edu.")))
@@ -232,9 +301,13 @@ server <- function(input, output) {
             pivot_longer(cols = `1`:`2`) %>%
             ggplot(aes(value, y = after_stat(count/sum(count)), fill = name)) +
             geom_density(alpha = 0.4) +
+            theme_bw() +
             labs(x = "% of National Income held by Top 10%",
                  y = "Probability") +
-            scale_x_continuous(limits = c(0,100)) +
+            scale_x_continuous(limits = c(0,100),
+                               breaks = c(seq(from = 0,
+                                              to = 100,
+                                              by = 10))) +
             scale_fill_manual(name = "Input",
                               labels = c("Left", 
                                          "Right"),
