@@ -40,22 +40,73 @@ mod_table <- readRDS("rdsFiles/mod_table")
                      the legislative majority of the ruling party correlate with 
                      income inequality? This project seeks to answer these types 
                      of questions."),
-                     sidebarPanel(
-                         selectInput(
-                             "plot_type",
-                             "Plot Type",
-                             c("Polarization" = "a", 
-                               "Legislative Majority" = "b",
-                               "Military Government" = "c",
-                               "Finite Term" = "d",
-                               "Nationalist Executive in Power" = "e",
-                               "Check and Balances" = "f",
-                               "Legislative Competitiveness" = "g",
-                               "Executive Competitiveness" = "h")
-                         )),
-                     mainPanel(plotOutput("line_plot"),
-                               p(""))
+                     h3("List of Sections"),
+                     p("The 'Model Discussion' tab covers construction of the 
+                       model of income inequality itself, and the decision-
+                       making process involved."),
+                     p("The 'Observations' tab interprets the numbers in the 
+                       model, using graphs to visually show the impacts of these 
+                       factors."),
+                     p("The 'Model in Action' tab allows one to experiment with 
+                       the model, to better understand the impacts of the 
+                       variables investigated."),
+                     p("The 'Info' tab contains an overview of the data sources 
+                       used, as well as a link to the GitHub repo for the 
+                       project."),
                      )),
+        tabPanel("Model Discussion",
+                 titlePanel("Model Discussion"),
+                 p("The factors that went into the model can be roughly grouped 
+                   into political, economic, and regional factors. Economic 
+                   factors are comprised of the income group of each country, 
+                   and regional factors are comprised of the region a country is 
+                   located in, as defined by the World Bank. The political 
+                   factors are slightly more qualitative in nature, as many of 
+                   them do not have a strict set of definitions. The scores were 
+                   assigned to individual countries by political science 
+                   researchers, as outlined under the paper ‘New Tools and New 
+                   Tests in Comparative Political Economy’, published by the 
+                   World Bank Development Research Group. These are the 
+                   different political variables:"),
+                 p("1. Legislative Competitiveness: The competitiveness of 
+                   elections to the legislature, as determined by the number of 
+                   parties competing, as well as the vote share of the largest 
+                   party, ranging from a score of 1 (no legislature) to 7 (the 
+                   largest party received less than 75% of the seats)."),
+                 p("2. Legislative Majority: The legislative majority held by the 
+                   ruling party, not counting coalition partners."),
+                 p("3. Checks and Balances: The number of veto players in a 
+                   political system, with the total number adjusted according to 
+                   whether or not these veto players are independent of each 
+                   other. This independence is determined according to 
+                   legislative competitiveness and the political affiliations of 
+                   the veto players."),
+                 p("4. Nationalist Executive: If the executive’s party is 
+                   nationalist, defined by a whether or not their platform 
+                   discusses the creation or defense of a national or ethnic 
+                   identity."),
+                 p("5. Polarization: The maximum difference in political 
+                   orientation between government parties, representing the 
+                   political uniformity of the ruling coalition."),
+                 p("Many different political and economic variables were 
+                   considered for the model but did not make it into the final 
+                   model, such as the presence of term limits, the length of 
+                   time the ruling party had been in power, and the GDP per 
+                   capita of the country. These were excluded for two reasons: 
+                   either they did not improve the predictive power of the model 
+                   (such as for term limits, number of years the ruling party 
+                   had been in power), or because I judged they overlapped 
+                   significantly with variables already factored into the model, 
+                   leading to distortion of the final values (GDP per capita 
+                   overlaps with income group, executive election 
+                   competitiveness overlaps with legislative election 
+                   competitiveness). "),
+                 p("In this table, the Intercept represents the expected portion
+                   of national income held by the top 10% in a High Income 
+                   country in the East Asia & Pacific Region, with a 
+                   polarization level of 0. To see all of the interpretations of
+                   these numbers, view the 'Model Observations' tab."),
+                 gt_output("mod_table")),
         tabPanel("Observations",
                  titlePanel("Observations"),
                  p("The findings of the model are discussed below, while the 
@@ -156,57 +207,6 @@ mod_table <- readRDS("rdsFiles/mod_table")
                      sliderInput("liec2", "Legislative Competitiveness",
                                  min = 1, max = 7,
                                  value = 7))),
-        tabPanel("Model Discussion",
-                 titlePanel("Model Discussion"),
-                 p("The factors that went into the model can be roughly grouped 
-                   into political, economic, and regional factors. Economic 
-                   factors are comprised of the income group of each country, 
-                   and regional factors are comprised of the region a country is 
-                   located in, as defined by the World Bank. The political 
-                   factors are slightly more qualitative in nature, as many of 
-                   them do not have a strict set of definitions. The scores were 
-                   assigned to individual countries by political science 
-                   researchers, as outlined under the paper ‘New Tools and New 
-                   Tests in Comparative Political Economy.’ These are the 
-                   different political variables:"),
-                 p("1. Legislative Competitiveness: The competitiveness of 
-                   elections to the legislature, as determined by the number of 
-                   parties competing, as well as the vote share of the largest 
-                   party, ranging from a score of 1 (no legislature) to 7 (the 
-                   largest party received less than 75% of the seats)."),
-                 p("2. Legislative Majority: The legislative majority held by the 
-                   ruling party, not counting coalition partners."),
-                 p("3. Checks and Balances: The number of veto players in a 
-                   political system, with the total number adjusted according to 
-                   whether or not these veto players are independent of each 
-                   other. This independence is determined according to 
-                   legislative competitiveness and the political affiliations of 
-                   the veto players."),
-                 p("4. Nationalist Executive: If the executive’s party is 
-                   nationalist, defined by a whether or not their platform 
-                   discusses the creation or defense of a national or ethnic 
-                   identity."),
-                 p("5. Polarization: The maximum difference in political 
-                   orientation between government parties, representing the 
-                   political uniformity of the ruling coalition."),
-                 p("Many different political and economic variables were 
-                   considered for the model but did not make it into the final 
-                   model, such as the presence of term limits, the length of 
-                   time the ruling party had been in power, and the GDP per 
-                   capita of the country. These were excluded for two reasons: 
-                   either they did not improve the predictive power of the model 
-                   (such as for term limits, number of years the ruling party 
-                   had been in power), or because I judged they overlapped 
-                   significantly with variables already factored into the model, 
-                   leading to distortion of the final values (GDP per capita 
-                   overlaps with income group, executive election 
-                   competitiveness overlaps with legislative election 
-                   competitiveness). "),
-                 p("In this table, the Intercept represents the expected portion
-                   of national income held by the top 10% in a High Income 
-                   country in the East Asia & Pacific Region, with a 
-                   polarization level of 0."),
-                 gt_output("mod_table")),
         tabPanel("Info", 
                  h3("Information on Sources:"),
                  
