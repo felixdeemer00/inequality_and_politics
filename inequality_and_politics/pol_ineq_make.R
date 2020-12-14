@@ -48,6 +48,10 @@ gdp_per_cap <- read.csv("inequality_and_politics/raw_data/gdp_cap.csv",
          year = map_dbl(year, as.integer)) %>%
   rename(c3 = Country.Code)
 
+# I renamed the variable names for the region_data object to aid with the
+# left_join() used later, to standardize column names across objects to be
+# joined.
+
 region_data <- read.csv("inequality_and_politics/raw_data/gdp_cap_metadata.csv") %>%
   select(Country.Code, Region, IncomeGroup) %>%
   rename(c3 = Country.Code, region = Region, incomegroup = IncomeGroup)
