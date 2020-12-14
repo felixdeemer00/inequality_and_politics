@@ -21,7 +21,6 @@ mia_d <- readRDS("rdsFiles/mia_d")
 mia_e <- readRDS("rdsFiles/mia_e")
 mia_f <- readRDS("rdsFiles/mia_f")
 mia_g <- readRDS("rdsFiles/mia_g")
-mia_h <- readRDS("rdsFiles/mia_h")
 model_1 <- readRDS("rdsFiles/model_1")
 mod_table <- readRDS("rdsFiles/mod_table")
 
@@ -120,7 +119,7 @@ mod_table <- readRDS("rdsFiles/mod_table")
                    constant except for the one being varied."),
                  sidebarPanel(
                      selectInput(
-                         "plot_type2",
+                         "plot_type",
                          "Plot Type",
                          c("Polarization" = "a", 
                            "Legislative Majority" = "b",
@@ -130,12 +129,13 @@ mod_table <- readRDS("rdsFiles/mod_table")
                            "Income Group" = "f",
                            "Region" = "g")
                      )),
-                 mainPanel(plotOutput("line_plot2")),
+                 mainPanel(plotOutput("line_plot")),
                 strong("Polarization: "),
-                p("An increase of polarization from 0 to 1 leads
-                   to a 0.83 increase in the income share of the top 10%, while
-                   a polarization level of 2 leads to a -0.73 drop in top 10%
-                   income share. This effect is fairly small, and both have 
+                p("An increase of polarization from 0 to 1 is associated with
+                   a 0.83 increase in the income share of the top 10%, while
+                   a polarization level of 2 is correlated to a -0.73 drop in 
+                   the top 10%
+                   income share. This link is fairly small, and both have 
                    confidence ranges that overlap with 0, but despite this 
                    it does seem to indicate that moderate polarization leads to
                    slightly higher inequality, while high polarization lowers it
@@ -179,9 +179,21 @@ mod_table <- readRDS("rdsFiles/mod_table")
                    lowest levels. Somewhat surprisingly, Upper-Middle Income 
                    countries are associated with a drastically higher level of 
                    income inequality, a large margin over the other three 
-                  groups."),
-                strong(""),
-                p("")),
+                  groups."), 
+                strong("(Note - Due to the interaction term between
+                  region/income group and legislative majority, this variable is
+                  more difficult to interpret exactly.)"),
+                p(""),
+                strong("Region:"),
+                p("The Latin America & Caribbean and Sub-Saharan regions are
+                  associated with the highest top 10% income shares, while the
+                  Middle East, Europe, and East Asia regions are associated
+                  with the lowest. (Note - Due to the interaction term between
+                  region/income group and legislative majority, this variable is
+                  more difficult to interpret exactly.)"), 
+                strong("(Note - Due to the interaction term between
+                  region/income group and legislative majority, this variable is
+                  more difficult to interpret exactly.)")),
         tabPanel("Model in Action",
                  
 # For this tab, I used two sidebarPanel() functions, setting each one to have a 
